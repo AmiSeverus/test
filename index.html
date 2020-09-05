@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>jQuery34</title>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<link rel="stylesheet" href="./css/styles.css">
+<script src="./js/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <div class="test">
+            <div class="testImg">
+                <img src="./img/test0.png">
+            </div>
+            <div class="testHeader">
+                <h2>Пройти тест</h2>
+            </div>
+            <div class="testButton">
+                <button type="button" class="btn btn-outline-secondary btn-sm" style="font-size: 20px;">Начать тест</button>
+            </div>
+            <br>
+            <div class="testContent">
+                <p align="justify"> Человек всегда стремится узнать о себе что-нибудь новое. Особенно, если объективная реальность, в которой он находится, не спешит давать ему какие-либо ответы на вопросы. Приходится полагаться только на свой опыт, а он, порой, подводит. Так где же найти эти самые подсказки? Этот тест-картинка как раз из этой серии. Просто посмотри на неё внимательно и скажи, что ты увидел в первую очередь. Только долго не думай.</p>
+            </div>
+        </div>
+    </div>
+
+<script>
+
+//<i class="fas fa-hands"></i> - hands
+//<i class="fas fa-bomb"></i> - boom
+//<i class="fas fa-tree"></i> - tree
+//<i class="fas fa-battery-empty"></i> - zero
+
+
+
+    $(document).ready(() => {
+
+        const STATEDATA = [
+            {   
+                testHeader: "Пройти тест",
+                testButton: "Начать тест",
+                testContent : "Человек всегда стремится узнать о себе что-нибудь новое. Особенно, если объективная реальность, в которой он находится, не спешит давать ему какие-либо ответы на вопросы. Приходится полагаться только на свой опыт, а он, порой, подводит. Так где же найти эти самые подсказки? Этот тест-картинка как раз из этой серии. Просто посмотри на неё внимательно и скажи, что ты увидел в первую очередь. Только долго не думай.",
+            },
+            {   
+                testHeader: "Что ты увидел?",
+                testButton: "Узнать ответ",
+                testContent : ["Дерево","Руки","Взрыв","Ничего"],
+            },
+            {   
+                testHeader: "Если ты увидел дерево",
+                testButton: "Пройти тест ещё раз",
+                testContent : "Ты очень внимательный человек и от тебя не скроется ни одна деталь. Равно как и информация. Ещё ты прекрасно чувствуешь окружающих и можешь считывать их настроение. Ты всегда знаешь, в какой момент времени обратиться к человеку по тому или иному вопросу. Твоё призвание - это финансы. Успех ждет тебя там, где нужны точность и внимательность. ",
+            },
+            {
+                testHeader: "Если ты увидел руки",
+                testButton: "Пройти тест ещё раз",
+                testContent : "Несмотря на то, что у тебя прекрасно развито воображение, ты во всём опираешься на логику. И этот тот инструмент, которым ты активно пользуешься. Ты всегда мыслишь трезво и видишь вещи такими, какие они есть на самом деле. Тебе не известна паника. Ты всегда сохраняешь спокоствие, а холодный ум способен найти выход из самой сложной и запутанной ситуации. Люди чувствуют твою силу и подсознательно тянутся к тебе.",
+            },
+            {   
+                testHeader: "Если ты увидел взрыв",
+                testButton: "Пройти тест ещё раз",
+                testContent : "Только сила воображения и ничего больше. Именно это не раз выручало тебя в жизни. Попытайся вспомнить, что помогало тебе в сложные времена. Ответ очевиден - это творчество. Скорее всего, ты стилист или художник. А если нет, тогда стоит подумать о том, чтобы начать, к примеру, играть на гитаре. В тебе однозначно есть скрытые таланты и для того, чтобы жить полной жизнью, эту энергию нужно освоить. ",
+            },
+            {   
+                testHeader: "Если ты ничего не увидел",
+                testButton: "Пройти тест ещё раз",
+                testContent : "Тебе просто нужно отдохнуть. Ты банально выдохся и тебе нужно восстановить силы. В таком состоянии ты не можешь смотреть на ситуацию со стороны и воспринимаешь всё слишком буквально. Решение сложных вопросов кажется тебе непосильной задачей. Брось всё, выспись. Побудь на едине с собой. Отвлекись от насущных проблем, а через пару дней снова в бой.",
+            }
+        ]
+
+        let cnt = 1;
+        $("button").bind("click", () => {
+            if (cnt == 1) {
+                testImgChange (cnt)
+                testHeaderChange (cnt)
+                testBtnChange (cnt)
+                testSelector (cnt)
+                cnt++
+            } else if (cnt == 2) {
+                $("input").each((index, item) => {
+                    if ($(item).prop("checked")) {
+                        cnt = +$(item).val()+cnt
+                        if (cnt == 3) {
+                            testImgAnimation (cnt)
+                            testHeaderChange (cnt)
+                            testBtnChange (cnt)
+                            testContentChange (cnt)
+                        }
+                        if (cnt == 4) {
+                            testImgAnimation (cnt)
+                            testHeaderChange (cnt)
+                            testBtnChange (cnt)
+                            testContentChange (cnt)
+                        }
+                        if (cnt == 5) {
+                            testImgAnimation (cnt)
+                            testHeaderChange (cnt)
+                            testBtnChange (cnt)
+                            testContentChange (cnt)
+                        }
+                        if (cnt == 6) {
+                            testImgAnimation (cnt)
+                            testHeaderChange (cnt)
+                            testBtnChange (cnt)
+                            testContentChange (cnt)
+                        }
+                    }
+                })
+            } else {
+                console.log(cnt)
+                cnt = 0;
+                testImgChange (cnt)
+                testHeaderChange (cnt)
+                testBtnChange (cnt)
+                testContentChange (cnt)
+                cnt++
+            }
+        })
+
+        function testImgChange (index) {
+            if (index < 3) {
+                $(".testImg").fadeOut("slow", function () {
+                $("img").attr("src", `./img/test${index}.png`),
+                $(".testImg").fadeIn("slow")})
+            }
+        }
+        function testHeaderChange (index) {
+            if (index >= 3) {index--}
+            $(".testHeader").hide("fast", function () {
+            $("h2").text(STATEDATA[index].testHeader)
+            $(".testHeader").show("fast")})            
+        }
+        function testBtnChange (index) {
+            if (index >= 3) {index--}
+            $("button").text(STATEDATA[index].testButton)
+        }
+
+        function testContentChange (index) {
+            if (index != 2){
+                if (index >= 3) {
+                    index--
+                }
+                $(".testContent").slideUp("fast", function () {
+                $(".testContent").html("")
+                $("<p>").text(STATEDATA[index].testContent).attr("align", "justify").appendTo(".testContent")
+                $(".testContent").slideDown("slow")                    
+                })               
+            }
+        }
+
+        function testSelector (i) {
+            $(".testContent").slideUp("slow", function () {
+                $("p").remove()
+                $(STATEDATA[i].testContent).each((index, item) => {
+                    const input = $("<input>").attr({
+                        "name": "test",
+                        "type": "checkbox",
+                        "value": index+1
+                    })
+                    const p = $("<p>").text(item + " ").attr("align", "justify")
+                    input.appendTo(p)
+                    p.appendTo(".testContent")
+                    $(".testContent").slideDown("slow")               
+                })
+            })
+        }
+
+        function testImgAnimation (index) {
+            const i = index
+            $("img")
+            .attr("src", `./img/img${i}/test1.png`)
+            .fadeOut(8000, function () {
+                $("img")
+                .attr("src" , `./img/img${i}/test2.png`)
+                .fadeIn(8000)
+            })
+        }
+    })
+
+
+
+
+</script>
+</body>
+</html>
